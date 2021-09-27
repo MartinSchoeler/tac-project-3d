@@ -1,7 +1,8 @@
 /* eslint-disable import/no-duplicates */
 
 import './App.css'
-import React from 'react'
+import React, { Suspense } from 'react'
+
 import { Canvas } from '@react-three/fiber'
 import { TileSet } from './components/TileSet'
 import { OrbitControls } from '@react-three/drei'
@@ -12,10 +13,11 @@ function randomIntFromInterval () {
 }
 
 function App () {
+  // TODO: use a function to generate terrain
   const matrix = [
-    [{ size: [1, 1, 1] }, { size: [1, 1, 1] }, { size: [1, 1, 1] }],
-    [{ size: [1, 1, 1] }, { size: [1, 1, 1] }, { size: [1, 1, 1] }],
-    [{ size: [1, 1, 1] }, { size: [1, 1, 1] }, { size: [1, 1, 1] }]
+    [{ size: [1, 1, 1], height: 0.5 }, { size: [1, 1, 1], height: 0.8 }, { size: [1, 1, 1], height: 0.7 }],
+    [{ size: [1, 1, 1], height: 0.5 }, { size: [1, 1, 1], height: 0.6 }, { size: [1, 1, 1], height: 0.7 }],
+    [{ size: [1, 1, 1], height: 0.5 }, { size: [1, 1, 1], height: 0.6 }, { size: [1, 1, 1], height: 0.7 }]
   ]
   return (
     <div id="canvas-container">
@@ -24,7 +26,10 @@ function App () {
 
         <ambientLight intensity={0.1} />
         <directionalLight color="red" position={[2, 1, 8]} />
-        <TileSet terrainMatrix={matrix} tileSize={1}></TileSet>
+        <Suspense fallback={null}>
+          <TileSet terrainMatrix={matrix} tileSize={1}></TileSet>
+
+        </Suspense>
       </Canvas>
     </div>
   )

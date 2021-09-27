@@ -4,16 +4,16 @@ import React from 'react'
 import { Tile } from './Tile'
 
 export const TileRow = ({ terrainRow, tileSize, terrainRowIndex }) => {
-  let currentLocation = [0, 0, 0]
+  let currentLocation = [0, 0, terrainRowIndex]
 
-  const calculateNextPosition = () => {
+  const calculateNextPosition = (height) => {
     const returnLocation = [...currentLocation]
-    currentLocation = currentLocation.map((axis, index) => index === 2 ? axis + tileSize : index === 0 ? terrainRowIndex : 0)
+    currentLocation = currentLocation.map((axis, index) => index === 0 ? axis + tileSize : index === 2 ? terrainRowIndex : height)
     console.log(currentLocation)
     return returnLocation
   }
 
-  const tileSetComponent = terrainRow.map((terrainTile) => <Tile key position={calculateNextPosition()} size={terrainTile.size}/>)
+  const tileSetComponent = terrainRow.map((terrainTile) => <Tile key position={calculateNextPosition(terrainTile.height)} size={terrainTile.size}/>)
   console.log(tileSetComponent)
   return tileSetComponent
 }
